@@ -1,24 +1,197 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Travel App</title>
-        <link href="./index.css" type="text/css" rel="stylesheet">
-    </head>
-    <body>
-        <h1>Discover hidden places in the world around you</h1>
-        <a class="link" href="#" >Download Excursion (Coming soon!)</a>
-        <div class="video">
-            <video autoplay muted loop>
-                <source src="./excursion.mp4" type="video/mp4">
-            </video>
-            <h1>Your personal travel guide</h1>
-            <h2>Excursion remembers places you like, and recommends new points of interest around you.</h2>
-            <p></p><img src="https://content.codecademy.com/programs/freelance-one/excursion/images/camp.jpg" alt="app image"></p>
-            <br>
-            <img src="https://content.codecademy.com/programs/freelance-one/excursion/images/phone.png" alt="mobile image">
-            <h1>Coming Soon for iPhone and Android</h1>
-            <a class="link" href="#">Download Excursion (Coming soon!)</a>
-            <h3>@ Created by Atharva</h3>
-        </div>
-    </body>
-</html>
+<!DOCTYPE HTML>
+<HEAD>
+	<title>Sensor</title>
+	<style>
+table {
+  width:50%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.button {
+  background-color: #008CBA; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+</style>
+
+</HEAD>
+<body>
+	<center>
+		<table id="t01">
+			<tr>
+				<td><b>Hardware/Sensor</b></td>
+				<td><b>Floor</b></td>
+				<td><b>Output</b></td>
+			</tr>
+			<tr>
+				<td>Light</td>
+				<td>First</td>
+				<td>
+				  <label class="switch">
+					  <input type="checkbox" id="myCheck">
+					  <span class="slider round"></span>
+					</label>
+				 </td>
+			</tr>	
+			<tr>
+				<td>Water Level</td>
+				<td>A Wing</td>
+				<td><progress id="myProgress" value="10" max="1024"></progress></p></td>
+			</tr>
+			<tr>	
+				<td>Light</td>
+				<td>Second</td>
+				<td> <label class="switch">
+					  <input type="checkbox" checked>
+					  <span class="slider round"></span>
+					</label>
+				</td>
+			</tr>		
+				<td>Light</td>
+				<td>Third</td>
+				<td><label class="switch">
+					  <input type="checkbox" checked>
+					  <span class="slider round"></span>
+					</label>
+				</td>
+			</tr>	
+				<td>Light</td>
+				<td>Fourth</td>
+				<td><label class="switch">
+					  <input type="checkbox" checked>
+					  <span class="slider round"></span>
+					</label>
+				</td>
+			</tr>	
+		</table>
+		<button class="button" id="sub" type="button">Apply</button>
+ 	</center>					
+<!--------Javascript----------------------------------------------------------------------------------------------------->
+
+	<!--Firebase Libraries-->
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script> 
+
+ 
+        <script>
+
+			  var firebaseConfig = {
+			    apiKey: "AIzaSyCfE7xuezX0A5qFy3lgUr2tV6xwapSL7bs",
+			    authDomain: "home-f3bd8.firebaseapp.com",
+			    databaseURL: "https://home-f3bd8-default-rtdb.firebaseio.com",
+			    projectId: "home-f3bd8",
+			    storageBucket: "home-f3bd8.appspot.com",
+			    messagingSenderId: "79452231344",
+			    appId: "1:79452231344:web:305ad962571e0f44eecd75"
+			  };
+			  // Initialize Firebase
+			  firebase.initializeApp(firebaseConfig);
+
+        /*
+		  document.getElementById('sub').onclick = function(){
+		  	ready();
+		  	firebase.database().ref('Sensor/').set({
+		  		Light: light_first,
+		  	});
+		  }
+        */
+		  
+		  document.getElementById('sub').onclick = function(){
+		  	var checkBox = document.getElementById("myCheck");
+		  	if (checkBox.checked == true){
+		  		firebase.database().ref('Sensor/').update({
+		  			Light: "On",
+		  		})}
+		  	else{
+		  		firebase.database().ref('Sensor/').update({
+		  			Light: "Off",
+		  		})
+		  		}
+		  	firebase.database().ref('Sensor/Water').on('value', function(snapshot){
+		  		var x = document.getElementById("myProgress");
+		  		x.value = snapshot.val().A;
+		  	});
+            }
+
+	
+</script>
+
+
+
+
+</body>
